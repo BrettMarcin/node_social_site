@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/stylesheet/home.css">
@@ -15,14 +15,42 @@
         <p>Profile </p>
     </div>
     <div class="col-sm-6" id="timeline">
-        <form action="/users/processPost" method="post" id="postForm">
-        <textarea name="userPost" id="userPost"></textarea>
-            <input type="submit">
+        <div class="form-group">
+            <label for="userPost">Create a new Post:</label>
+            <form action="/users/processPost" method="post" id="postForm">
+                <textarea class="form-control" rows="3" name="userPost" id="userPost" maxlength="140"></textarea>
+                <input type="submit" class="btn btn-info" value="Submit">
             </form>
+            </div>
         <% if(theUser.posts) { %>
-        <% theUser.posts.forEach(function(post) {%>
-            <li><%= post.content%> </li>
-        <% }) %>
+            <% theUser.posts.forEach(function(post) {%>
+                <div class="panel panel-default post-panel">
+                <div class="panel-body row">
+
+                    <div class="col-sm-1">
+
+                    </div>
+                    <div class="col-sm-11">
+                        <p class="post-title"><%= theUser.first + ' ' +  theUser.last%> |  <span class="post-owner"> @<%=theUser.username%> </span>
+                            <span class="post-creation"> | <%=post.date%></span>
+                            <span class="glyphicon glyphicon-remove g-links" aria-hidden="true" style="float: right;" onclick="removePost('<%=post.id%>')"></span>
+                        </p>
+                        <p class="post-content"><%= post.content%></p>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <p class="post-links">
+                            <span class="glyphicon glyphicon-comment g-links" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-retweet g-links" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-heart g-links" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-stats g-links" aria-hidden="true"></span>
+                            <a href="">View Conversations</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <% }) %>
         <% } %>
     </div>
     <div class="col-sm-2" id="suggestions">

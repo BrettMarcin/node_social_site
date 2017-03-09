@@ -29,3 +29,21 @@ function changeUsername(){
         });
     }
 };
+
+function removePost(data){
+    var retVal = confirm("Are you sure you want to delete this post?");
+    var input  = {theData: data};
+    if( retVal == true ) {
+        console.log('In');
+        $.ajax({
+            url: '/users/removePost',
+            type: "POST",
+            async: false,
+            dataType: "json",
+            data: input,
+            success: function (data) {
+                window.location.reload();
+            }
+        });
+    }
+}

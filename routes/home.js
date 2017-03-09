@@ -13,7 +13,23 @@ router.post('/processPost',ensureAuthenticated, function(req, res){
     var today = new Date();
 
     User.update({_id: req.user.id}, {
-        $push: {"posts": {author: req.user.username, content: req.body.userPost, date: (today.getFullYear()* 10000) + ((today.getMonth()+ 1) * 100)  + today.getDay()}}
+        $push: {"posts": {author: req.user.username, content: req.body.userPost, date:  (today.getMonth() + 1) + '/' + today.getDay() + '/' + today.getFullYear()}, $position: 0}
+    }, function(err, user){
+        res.redirect('home');
+    });
+
+    // User.find({ _id: req.user.id }, function(err, user) {
+    //     user.posts.unshift({author: req.user.username, content: req.body.userPost, date:  (today.getMonth() + 1) + '/' + today.getDay() + '/' + today.getFullYear()});
+    //     // user.save(function(err){
+    //     //     res.redirect('home');
+    //     // });
+    //     res.redirect('home');
+    // });
+});
+
+router.post('/removePost', ensureAuthenticated, function(req, res){
+    User.update({_id: req.user.id}, {
+        $pull: {"posts": {_id : req.body.theData}}
     }, function(err, user){
         res.redirect('home');
     });

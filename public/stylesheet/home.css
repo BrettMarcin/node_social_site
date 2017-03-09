@@ -32,6 +32,46 @@
     background-color: white;
 }
 
+.btn-info{
+    margin: 5px 5px 5px 5px;
+}
+
+.post-panel{
+    margin-top: -21px;
+}
+.post-content{
+    text-align: left;
+    margin-left: 15px;
+
+}
+.post-title{
+    text-align: left;
+    margin-left: 15px;
+}
+.post-links{
+    text-align: left;
+}
+.post-owner{
+    color: black;
+    font-weight: bold;
+}
+.post-creation{
+    opacity: 0.7;
+}
+.g-links{
+    text-align: left;
+    opacity: 0.4;
+    font-size: 120%;
+    margin-right: 75px;
+}
+.post-form-panel{
+    margin-bottom: -21px;
+}
+
+.glyphicon-remove:hover{
+    background-color: gainsboro;
+}
+
 body{
   background-color: lightblue;
 }
