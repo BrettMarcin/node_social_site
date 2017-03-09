@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/stylesheet/home.css">
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <% include ./nav %>
+</head>
+<body>
+
+<div class="row">
+    <div class="col-sm-3" id="side-profile">
+        <p>Profile </p>
+    </div>
+    <div class="col-sm-6" id="timeline">
+        <form action="/users/processPost" method="post" id="postForm">
+        <textarea name="userPost" id="userPost"></textarea>
+            <input type="submit">
+            </form>
+        <% if(theUser.posts) { %>
+        <% theUser.posts.forEach(function(post) {%>
+            <li><%= post.content%> </li>
+        <% }) %>
+        <% } %>
+    </div>
+    <div class="col-sm-2" id="suggestions">
+        <p> Suggestions</p>
+    </div>
+</div>
+
+</body>
+</html>

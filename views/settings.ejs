@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/stylesheet/home.css">
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <% include ./nav %>
+</head>
+
+<div class="row">
+    <div class="col-lg-4" id="settings">
+        <h1>Settings</h1>
+        <h2>First Name</h2>
+        <p><%= theUser.first %></p>
+        <form action='/changeFirst' method="post">
+            <label for="first_name">Change first name:</label>
+            <input type="text" id="first_name" name="first_name" required/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+        </form>
+
+        <h2>Last Name</h2>
+        <p><%= theUser.last %></p>
+        <form action='/changeLast' method="post">
+            <label for="last_name">Change last name:</label>
+            <input type="text" id="last_name" name="last_name" required/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+        </form>
+
+        <h2>Username</h2>
+        <p><%= theUser.username %></p>
+        <form action="javascript:changeUsername()">
+            <label for="user_name">Change username:</label>
+            <input type="text" id="theUsername" name="theUsername" required/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+        </form>
+
+        <h2>Change Password</h2>
+        <p></p>
+
+        <h2>Email</h2>
+        <p><%= theUser.email %></p>
+    </div>
+</div>
