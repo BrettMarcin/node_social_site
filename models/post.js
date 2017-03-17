@@ -1,20 +1,10 @@
-var mongoose = require('mongoose');
-
-var PostSchema = mongoose.Schema({
-    author: {
-        type: String
-    },
-    content: {
-        type: String
-    },
-    date: {
-        type: String
-    }
-
-});
-
-var Post = module.exports = mongoose.model('Post', UserSchema);
-
-module.exports.createPost = function(newPost, callback){
-    newPost.save(callback);
-};
+// var mongoose = require('mongoose');
+//
+// var postSchema = new mongoose.Schema({
+//     author: String,
+//     content: String,
+//     date: String,
+//     likes: [{theID: String}]
+// });
+//
+// var Post = module.exports = mongoose.model('Post', postSchema);

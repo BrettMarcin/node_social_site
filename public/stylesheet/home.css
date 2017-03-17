@@ -1,4 +1,4 @@
-#timeline {
+.timeline {
   margin-top: 5px;
   margin-left: 1px;
   margin-right: 1px;
@@ -70,6 +70,15 @@
 
 .glyphicon-remove:hover{
     background-color: gainsboro;
+}
+
+.profile-pic{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.search-results{
+    float: left;
 }
 
 body{

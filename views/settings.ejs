@@ -10,13 +10,13 @@
 </head>
 
 <div class="row">
-    <div class="col-lg-4" id="settings">
+    <div class="col-lg-4 form-group" id="settings">
         <h1>Settings</h1>
         <h2>First Name</h2>
         <p><%= theUser.first %></p>
         <form action='/changeFirst' method="post">
             <label for="first_name">Change first name:</label>
-            <input type="text" id="first_name" name="first_name" required/>
+            <input class=".form-control" type="text" id="first_name" name="first_name" required/>
             <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
         </form>
 
@@ -24,7 +24,7 @@
         <p><%= theUser.last %></p>
         <form action='/changeLast' method="post">
             <label for="last_name">Change last name:</label>
-            <input type="text" id="last_name" name="last_name" required/>
+            <input class=".form-control"  type="text" id="last_name" name="last_name" required/>
             <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
         </form>
 
@@ -32,12 +32,23 @@
         <p><%= theUser.username %></p>
         <form action="javascript:changeUsername()">
             <label for="user_name">Change username:</label>
-            <input type="text" id="theUsername" name="theUsername" required/>
+            <input class=".form-control" type="text" id="theUsername" name="theUsername" required/>
             <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
         </form>
 
         <h2>Change Password</h2>
-        <p></p>
+        <form action="javascript:changePassword()">
+            <label for="password">Change password:</label>
+            <input class=".form-control" type="password" id="password1" name="password1" required/>
+            <input class=".form-control" type="password" id="password2" name="password2" required/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+        </form>
+
+        <h2>Change Profile Image</h2>
+        <form action="/changeImage" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+        </form>
 
         <h2>Email</h2>
         <p><%= theUser.email %></p>

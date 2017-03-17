@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/stylesheet/home.css">
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <% include ./nav %>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-4 search-results">
+    <% for(var i = 0; i < theUsers.length; i++) { %>
+        <li style="background: #ffffff; border: black solid 1px; margin: 3px">
+        <img src="<%= theUsers[i].img.data%>" width="50" height="50"></img>
+        <a href="/users/profile/<%= theUsers[i].username%>"><%= theUsers[i].username%></a>
+        </li>
+    <% } %>
+    </div>
+</body>
+</html>

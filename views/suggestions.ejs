@@ -1,0 +1,9 @@
+<% var date = new Date()%>
+<% var time = (date.getSeconds()) * 60 * 60%>
+<% for(var i = 0; i < 5; i++) { %>
+    <% var num = (i + time) % (theUsers.length - 1)%>
+    <li style="background: #ffffff; border: black solid 1px; margin: 3px">
+        <img src="<%= theUsers[num].img.data%>" width="50" height="50"></img>
+        <a href="/users/profile/<%= theUsers[num].username%>"><%= theUsers[num].username%></a>
+    </li>
+<% } %>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <script type="text/javascript" src="/bower_components/underscore/underscore.js"></script>
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="/public/scripts.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/stylesheet/home.css">
+    <title>profile</title>
+    <% include ./nav %>
+</head>
+<body>
+
+<div class="row">
+    <div class="col-sm-3" id="side-profile">
+        <% include ./profile_tab %>
+    </div>
+    <div class="col-sm-6 timeline">
+        <% include ./profile_timeline %>
+    </div>
+    <div class="col-sm-2" id="suggestions">
+        <p> Suggestions</p>
+        <% include ./suggestions %>
+    </div>
+</div>
+
+</body>
+</html>

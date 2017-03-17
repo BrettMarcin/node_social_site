@@ -1,0 +1,40 @@
+<% if(theUser.username == currentUser.username) {%>
+    <div class="form-group">
+        <label for="userPost">Create a new Post:</label>
+        <form action="/users/processPostProfile" method="post" id="postForm">
+            <textarea class="form-control" rows="3" name="userPost" id="userPost" maxlength="140"></textarea>
+            <input type="submit" class="btn btn-info" value="Submit" required>
+        </form>
+    </div>
+    <% } %>
+    <% if(theUser.posts) { %>
+    <% for(var i = theUser.posts.length - 1; i >= 0; i--) { %>
+    <div class="panel panel-default post-panel">
+        <div class="panel-body row">
+            <div class="col-sm-1">
+                <img src="<%=theUser.img.data%>" width="50" height="50"></img>
+            </div>
+            <div class="col-sm-11">
+                <p class="post-title"><%= theUser.first + ' ' +  theUser.last%> |  <span class="post-owner"> @<%=theUser.username%> </span>
+                    <span class="post-creation"> | <%=theUser.posts[i].date%></span>
+                    <% if(theUser.username == currentUser.username) {%>
+                        <span class="glyphicon glyphicon-remove g-links" aria-hidden="true" style="float: right;" onclick="removePost('<%=(theUser.posts[i]).id%>')"></span>
+                    <% } %>
+                </p>
+                <p class="post-content"><%= theUser.posts[i].content%></p>
+            </div>
+
+            <div class="col-sm-12">
+                <p class="post-links">
+                    <span class="glyphicon glyphicon-comment g-links" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-retweet g-links" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-heart g-links" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-stats g-links" aria-hidden="true"></span>
+                    <a href="">View Conversations</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <% } /*) */%>
+    <% } %>

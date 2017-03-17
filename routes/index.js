@@ -3,6 +3,22 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
+var multer  = require('multer');
+var path = require('path');
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() +  path.extname(file.originalname));
+    }
+});
+var upload = multer({ storage: storage });
+var fs = require('fs');
+
+function getUsers(){
+    
+}
 
 
 router.get('/', function(req, res){
@@ -14,31 +30,13 @@ router.get('/', function(req, res){
 });
 
 router.post('/addUser', function(req, res){
-    var first = (req.body.user_first).toString();
-    var last = (req.body.user_last).toString();
-    var email = (req.body.user_email).toString();
-    var the_password = (req.body.user_password).toString();
-    var the_username = (req.body.user_username).toString();
-
-    //var errors = req.validationErrors();
-    // if(errors){
-    //     res.render('index', {
-    //         errors:errors
-    //     });
-    // } else {
-    //     var newUser = new User({
-    //         first: first,
-    //         last: last,
-    //         email: email,
-    //         username: the_username,
-    //         password: the_password
-    //     });
     var newUser = new User({
-        first: first,
-        last: last,
-        email: email,
-        username: the_username,
-        password: the_password
+        first: (req.body.user_first).toString(),
+        last: (req.body.user_last).toString(),
+        email: (req.body.user_email).toString(),
+        username: (req.body.user_username).toString(),
+        password: (req.body.user_password).toString(),
+        img: {data: '/public/images/default.png', contentType: 'image/png'}
     });
 
         User.findOne({'username' : newUser.username}, function(err, user){
@@ -54,7 +52,6 @@ router.post('/addUser', function(req, res){
             } else {
                 User.createUser(newUser, function(err, user){
                     if(err) throw err;
-                    console.log(user);
                 });
                 res.redirect('/');
             }
@@ -123,6 +120,26 @@ router.post('/changeUsername', function(req, res){
                 res.json({status: 'success'});
             });
         }
+    });
+});
+
+router.post('/changePassword', function(req, res){
+    User.changePassword(req.user,req.body.data, function(err, user){
+        if(err) throw err;
+        res.send('settings');
+    });
+});
+
+router.post('/changeImage', upload.single('file'), function(req, res, next){
+    var file = req.file;
+    if(req.user.img.data != '/public/images/default.png'){
+        var thePath = (req.user.img.data).toString().substr(1, req.user.img.data.toString().length);
+        fs.unlink(thePath);
+    }
+    User.update({_id: req.user.id}, {
+        img: {data: '/' + file.path, contentType: file.mimetype}
+    }, function(err, user){
+        res.redirect('/users/settings');
     });
 });
 
