@@ -23,13 +23,21 @@
                 </p>
                 <p class="post-content"><%= theUser.posts[i].content%></p>
             </div>
-
             <div class="col-sm-12">
                 <p class="post-links">
                     <span class="glyphicon glyphicon-comment g-links" aria-hidden="true"></span>
                     <span class="glyphicon glyphicon-retweet g-links" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon-heart g-links" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon-stats g-links" aria-hidden="true"></span>
+                    <% var liked = false %>
+                    <% for(var j= 0; theUser.posts[i].likes.length; i++) { %>
+                        <% if(currentUser.id == theUser.posts[i].likes[j]) { %>
+                            <% liked = true%>
+                        <% break } %>
+                    <% } %>
+                    <% if(liked) {%>
+                        <span class="glyphicon glyphicon-heart g-links" aria-hidden="true" style="color: red;" onclick="removeLike('<%=(theUser.posts[i]).id + ', ' + theUser.id%>')"></span>
+                    <% } else { %>
+                        <span class="glyphicon glyphicon-heart g-links" aria-hidden="true" onclick="addLike('<%=(theUser.posts[i]).id+ ', ' + theUser.id %>')"></span>
+                    <% } %>
                     <a href="">View Conversations</a>
                 </p>
             </div>

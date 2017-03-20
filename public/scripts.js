@@ -9,6 +9,41 @@ function logout(){
     });
 };
 
+function createUser() {
+    if ($('#adminCheck').is(":checked")){
+        var check = prompt("Please enter the admin password");
+        if(check == "new") {
+            $.ajax({
+                url: '/addUser',
+                type: "POST",
+                dataType: "json",
+                data: {adminStatus: true, user_first: document.getElementById("first_name").value.toString(),
+                    user_last: document.getElementById("last_name").value.toString(), user_username: document.getElementById("sign_username").value.toString(),
+                    user_password: document.getElementById("sign_password").value.toString(), user_email: document.getElementById("email").value.toString()},
+                async: false,
+                success: function () {
+                    window.location.reload();
+                }
+            });
+        } else {
+            alert("Sorry that is incorrect");
+        }
+    } else {
+            $.ajax({
+                url: '/addUser',
+                type: "POST",
+                dataType: "json",
+                data: {adminStatus: false, user_first: document.getElementById("first_name").value.toString(),
+                    user_last: document.getElementById("last_name").value.toString(), user_username: document.getElementById("sign_username").value.toString(),
+                    user_password: document.getElementById("sign_password").value.toString(), user_email: document.getElementById("email").value.toString()},
+                async: false,
+                success: function () {
+                    window.location.reload();
+                }
+            });
+    }
+}
+
 function settings(){
     $.ajax({
         url: '/users/settings',
@@ -105,6 +140,50 @@ function unfollowUser(profileUser){
     var input  = {profileUser: profileUser};
     $.ajax({
         url: '/users/unfollowUser',
+        type: "POST",
+        async: false,
+        dataType: "json",
+        data: input,
+        success: function (data) {
+            window.location.reload();
+        }
+    });
+}
+
+function removeUser(theID){
+    var retVal = confirm("Are you sure you want to delete this user?");
+    if( retVal == true ) {
+        $.ajax({
+            url: '/removeUser',
+            type: "POST",
+            async: false,
+            dataType: "json",
+            data: {currentUser: theID},
+            success: function (data) {
+                window.location.reload();
+            }
+        });
+    }
+}
+
+function addLike(postID, userID){
+    var input  = {postID: postID, userID: userID};
+    $.ajax({
+        url: '/users/addLike',
+        type: "POST",
+        async: false,
+        dataType: "json",
+        data: input,
+        success: function (data) {
+            window.location.reload();
+        }
+    });
+}
+
+function removeLike(postID, userID){
+    var input  = {postID: postID, userID: userID};
+    $.ajax({
+        url: '/users/removeLike',
         type: "POST",
         async: false,
         dataType: "json",

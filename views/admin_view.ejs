@@ -6,23 +6,19 @@
     <script type="text/javascript" src="/public/scripts.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/stylesheet/home.css">
-    <title>Profile</title>
+    <title>Search</title>
     <% include ./nav %>
 </head>
 <body>
-
 <div class="row">
-    <div class="col-xs-3" id="side-profile">
-        <% include ./profile_tab %>
+    <div class="col-lg-4 search-results">
+        <% for(var i = 0; i < theUsers.length; i++) { %>
+        <li style="background: #ffffff; border: black solid 1px; margin: 3px">
+            <img src="<%= theUsers[i].img.data%>" width="50" height="50"></img>
+            <a href="/users/profile/<%= theUsers[i].username%>"><%= theUsers[i].username%></a>
+            <span class="glyphicon glyphicon-remove g-links" aria-hidden="true" style="float: right;" onclick="removeUser('<%=theUsers[i]%>')"></span>
+        </li>
+        <% } %>
     </div>
-    <div class="col-sm-6 timeline">
-        <% include ./profile_timeline %>
-    </div>
-    <div class="col-sm-2" id="suggestions">
-        <p> Suggestions</p>
-        <% include ./suggestions %>
-    </div>
-</div>
-
 </body>
 </html>

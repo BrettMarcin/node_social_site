@@ -1,17 +1,43 @@
 <link rel="stylesheet" href="/public/stylesheet/nav.css">
-<div class="masthead">
-    <h3 class="text-muted">Brett's Social Site</h3>
-    <form method="post" action="/users/search">
-        <input type="text" name="search" placeholder="Search.." id="search">
-    </form>
-    <nav>
-        <ul class="nav nav-justified">
-            <li class="nav-bar" id="home-button"><a href="/users/home/">Home</a></li>
-            <li class="nav-bar" id="explore_button"><a href="#">Explore</a></li>
-            <li class="nav-bar" id="profile_button"><a href="/users/profile/<%= theUser.username%>">Profile</a></li>
-            <li class="nav-bar" id="Notifications"><a href="#">Notifications</a></li>
-            <li class="nav-bar" id="settings_button" onclick="settings()"><a href="/users/settings">Settings</a ></li>
-            <li class="nav-bar" id="logout_button" onclick="logout()"><a href="#">Sign-out</a></li>
-        </ul>
-    </nav>
-</div>
+<a name="top"></a>
+<nav class="navbar navbar-default">
+    <div class="container-fluid container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="nav-bar" id="home-button"><a href="/users/home/">Home</a></li>
+                <li class="nav-bar" id="Notifications"><a href="#">Notifications</a></li>
+                <li class="nav-bar" id="explore_button"><a href="#">Explore</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form class="navbar-form navbar-right" role="search" method="post" action="/users/search">
+                        <input type="text" name="search" placeholder="Search.." id="search">
+                    </form>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<%=theUser.img.data%>" class="rounded-img" height="25px" width="25px"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-bar" id="profile_button"><a href="/users/profile/<%= theUser.username%>">Profile</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="nav-bar" id="settings_button" onclick="settings()"><a href="/users/settings">Settings</a ></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="nav-bar" id="logout_button" onclick="logout()"><a href="#">Sign-out</a></li>
+                        <% if(theUser) { %>
+                        <li role="separator" class="divider"></li>
+                        <li class="nav-bar" id="admin"><a href="/adminView">Admin</a></li>
+                        <% } %>
+                    </ul>
+            </ul>
+        </div>
+    </div>
+</nav>

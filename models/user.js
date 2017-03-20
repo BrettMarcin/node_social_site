@@ -2,11 +2,13 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+
 var postSchema = new mongoose.Schema({
     author: String,
     content: String,
     date: String,
-    likes: [{theID: String}]
+    likes: [{theID: String}],
+    numDate: Number
 });
 
 var UserSchema = mongoose.Schema({
@@ -28,11 +30,13 @@ var UserSchema = mongoose.Schema({
     },
     followers: [{theID: String}],
     following: [{theID: String}],
-    img: { data: Buffer, contentType: String }
+    img: { data: Buffer, contentType: String },
+    admin: {type: Boolean, default: false}
 
 });
 
 var Post = module.exports = mongoose.model('Post', postSchema);
+
 var User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.createUser = function(newUser, callback){
@@ -85,4 +89,12 @@ module.exports.changePassword = function(newUser, newPassword, callback){
 
 module.exports.getAllUsers = function(callback){
     User.find({}, callback);
+};
+
+module.exports.createPost = function(post, callback){
+    post.save(callback);
+};
+
+module.exports.deletePost = function(theID){
+    Post.find({ id: theID }).remove().exec();
 };

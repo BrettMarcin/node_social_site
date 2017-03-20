@@ -16,14 +16,10 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 var fs = require('fs');
 
-function getUsers(){
-    
-}
-
 
 router.get('/', function(req, res){
     if(req.isAuthenticated()){
-        res.render('home', {theUser: req.user});
+        res.redirect('users/home');
     } else {
         res.render('index');
     }
@@ -38,8 +34,8 @@ router.post('/addUser', function(req, res){
         password: (req.body.user_password).toString(),
         img: {data: '/public/images/default.png', contentType: 'image/png'}
     });
-
-        User.findOne({'username' : newUser.username}, function(err, user){
+    newUser.admin = req.body.adminStatus;
+    User.findOne({'username' : newUser.username}, function(err, user){
             if(user){
                 console.log('username already exists');
                 res.redirect('/');
@@ -53,8 +49,8 @@ router.post('/addUser', function(req, res){
                 User.createUser(newUser, function(err, user){
                     if(err) throw err;
                 });
-                res.redirect('/');
             }
+            res.redirect('/');
         });
 });
 
@@ -142,5 +138,51 @@ router.post('/changeImage', upload.single('file'), function(req, res, next){
         res.redirect('/users/settings');
     });
 });
+
+router.get('/adminView', isAdmin, function(req, res){
+    User.find({'username' : new RegExp('', 'i')}, function(err, users){
+        res.render('admin_view', {theUsers: users, theUser: req.user});
+    });
+});
+
+router.post('/removeUser', function(req, res){
+    console.log(req.body.currentUser);
+
+        for (var i = 0; i < req.body.currentUser.followers.length; i++) {
+            User.update({_id: req.body.currentUser.followers[i].theID}, {
+                $pull: {"following": {theID: req.body.currentUser.id}}
+            }, function (err, user) {
+            });
+        }
+            for (var i = 0; i < req.body.currentUser.following.length; i++) {
+                User.update({_id: req.body.currentUser.following[i].theID}, {
+                    $pull: {"followers": {theID: req.body.currentUser.id}}
+                }, function (err, user) {
+                });
+            }
+
+    if(req.user.img.data != '/public/images/default.png' && req.user.img.data != null){
+        var thePath = (req.user.img.data).toString().substr(1, req.user.img.data.toString().length);
+        fs.unlink(thePath);
+    }
+    User.update({_id: req.body.currentUser.id}, {
+        username: null,
+        email: null
+    }, function(err, user){
+
+    });
+
+    User.remove({ _id: req.body.theID }, function(err) {
+        res.redirect('adminView');
+    });
+});
+
+function isAdmin(req, res, next) {
+    if (req.user.admin) {
+        return next();
+    } else {
+        res.redirect('/');
+    }
+}
 
 module.exports = router;

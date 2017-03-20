@@ -3,17 +3,36 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
-var Post = require('../models/post');
-var PostsArray = Post[2];
+var Post = require('../models/user');
 
 router.get('/home', ensureAuthenticated, function(req, res){
-    res.render('home', {theUser: req.user});
+    var thePosts = [{thePost: Post, theUser: User}];
+    for(var i = 0; i < req.user.following.length; i++){
+        User.findById(req.user.following[i].theID, function(err, user) {
+            for(var j = 0; j < user.posts.length; j++){
+                thePosts.push({thePost: user.posts[j], theUser: user});
+            }
+        });
+    }
+    function compare(a,b) {
+        if (a.thePost.numDate < b.thePost.numDate)
+            return -1;
+        if (a.thePost.numDate > b.thePost.numDate)
+            return 1;
+        return 0;
+    }
+    thePosts.sort(compare);
+    User.find({'username' : new RegExp('', 'i')}, function(err, users) {
+        res.render('home', {theUser: req.user, postArray: thePosts, theUsers: users});
+        }
+    );
 });
 
 router.post('/processPostProfile',ensureAuthenticated, function(req, res){
     var today = new Date();
+    var num = ((today.getMonth() + 1)*100) + (today.getDate() * 1) + (today.getFullYear() * 10000);
     User.update({_id: req.user.id}, {
-        $push: {"posts": {author: req.user.username, content: req.body.userPost, date:  (today.getMonth() + 1) + '/' + today.getDay() + '/' + today.getFullYear()}, $position: 0}
+        $push: {"posts": {author: req.user.username, content: req.body.userPost, date:  (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear(), numDate: num}, $position: 0}
     }, function(err, user){
         res.redirect('profile/' + req.user.username);
     });
@@ -77,6 +96,22 @@ router.get('/logout', ensureAuthenticated, function(req, res){
 router.post('/search', ensureAuthenticated, function(req, res){
     User.find({'username' : new RegExp((req.body.search).toString(), 'i')}, function(err, users){
         res.render('search', {theUsers: users, theUser: req.user});
+    });
+});
+
+router.post('/addLike', ensureAuthenticated, function(req, res){
+    User.findOne({'username' : req.body.userID}, function(err, user){
+        user.posts.update({_id: req.body.postID}, {
+            $push: {"likes": req.user.id}
+        }, function(err, user){
+            res.json({status: 'success'});
+        });
+    });
+});
+
+router.post('/addLike', ensureAuthenticated, function(req, res){
+    User.update({'username' : req.body.userID}, function(err, user){
+        
     });
 });
 

@@ -12,6 +12,7 @@ var expressSession = require('express-session');
 var flash = require('connect-flash');
 var expressValidator = require('express-validator');
 var mongoose = require('mongoose');
+require('./models/post');
 
 mongoose.connect('mongodb://localhost:27017/social', function(err){
     if(!err){
